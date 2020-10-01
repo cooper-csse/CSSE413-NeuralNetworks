@@ -43,7 +43,7 @@ public class Perceptron {
 	}
 
 	/**
-	 * TODO: Implement this method. You want to use the following fields:
+	 * DONE: Implement this method. You want to use the following fields:
 	 *  trainingSetSize
 	 *  networkSize
 	 *  weights array

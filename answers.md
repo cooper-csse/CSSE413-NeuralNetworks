@@ -12,3 +12,10 @@
     > As the threshold increases, the number of episodes required decreases.
 
 7.
+    * `0.1`, `15`, `0.5`, `3`
+    * `0.1`, `15`, `0.5`, `2`
+    * `0.2`, `10`, `0.7`, `2`
+    > Having a large learning rate and small episode count often trains quickly, but is unreliable. The best arrangement is small learning rate, higher episode count, higher threshold, and at least two hidden nodes.
+
+8.
+    

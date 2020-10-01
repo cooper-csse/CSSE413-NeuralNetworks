@@ -8,12 +8,13 @@ public class XOR {
 		{1, 1, 1}
 	};
 
-	private static int episodes = 2500;
-	private static double learningRate = 0.3; // experiment
+	private static int episodes = 10;
+	private static double learningRate = 0.2; // experiment
+	private static double threshold = 0.7;
 
 	private static int trainingSetSize = 0;
 	private static int inputLayerSize = 2;
-	private static int hiddenLayerSize = 3;
+	private static int hiddenLayerSize = 2;
 	private static double[][] hiddenLayerWeights; // [from][to]
 	private static double[] outputLayerWeights;
 
@@ -37,12 +38,29 @@ public class XOR {
 		}
 	}
 
-	private static double sigmoidActivationFunction(double input){
+	private static double stepActivationFunction(double input) {
+		if (input >= threshold) return 1;
+		return 0;
+	}
+
+	private static double stepActivationDerivative(double value) {
+		return 1;
+	}
+
+	private static double sigmoidActivationFunction(double input) {
 		return 1.0 / (1 + Math.exp(-1.0 * input));
 	}
-	
-	private static double derivative(double value){
+
+	private static double sigmoidActivationDerivative(double value) {
 		return value * (1 - value);
+	}
+
+	private static double activation(double input) {
+		return stepActivationFunction(input);
+	}
+
+	private static double derivative(double value) {
+		return stepActivationDerivative(value);
 	}
 	
 	public static void main(String[] args){
@@ -69,7 +87,7 @@ public class XOR {
 					for (int inputNode = 0; inputNode < 2; inputNode++){
 						inputToNeuron += hiddenLayerWeights[inputNode][hiddenNode] * activationInput[inputNode];
 					}
-					activationHidden[hiddenNode] = sigmoidActivationFunction(inputToNeuron);
+					activationHidden[hiddenNode] = activation(inputToNeuron);
 				}
 
 				// For the XOR network, we assume one output node.
@@ -77,7 +95,7 @@ public class XOR {
 				for (int hiddenNode = 0; hiddenNode < hiddenLayerSize; hiddenNode++){
 					inputAtOutput += outputLayerWeights[hiddenNode] * activationHidden[hiddenNode];
 				}
-				double activationOutput = sigmoidActivationFunction(inputAtOutput);
+				double activationOutput = activation(inputAtOutput);
 				
 				// calculating errors
 				// desired output is on array location 2; need to get rid of constant
@@ -136,7 +154,7 @@ public class XOR {
 				for (int inputNode = 0; inputNode < 2; inputNode++){
 					inputToNeuron += hiddenLayerWeights[inputNode][hiddenNode] * activationInput[inputNode];
 				}
-				activationHidden[hiddenNode] = sigmoidActivationFunction(inputToNeuron);
+				activationHidden[hiddenNode] = activation(inputToNeuron);
 			}
 
 			// For the XOR network, we assume one output node.
@@ -144,7 +162,7 @@ public class XOR {
 			for (int hiddenNode = 0; hiddenNode < hiddenLayerSize; hiddenNode++){
 				inputAtOutput += outputLayerWeights[hiddenNode] * activationHidden[hiddenNode];
 			}
-			double activationOutput = sigmoidActivationFunction(inputAtOutput);
+			double activationOutput = activation(inputAtOutput);
 
 			System.out.println("Example " + example + " has: " + activationOutput + " should be: " + trainingData[example][2]);	
 		}
