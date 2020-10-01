@@ -1,20 +1,22 @@
 package edu.rosehulman.andersc7.neuralnetworks;
 
 public class XOR {
-	
-	private static int[][] trainingData = {		
-		{0,0,0},
-		{0,1,1},
-		{1,0,1},
-		{1,1,0}}; 
+	private static final int[][] trainingData = {
+		{0, 0, 0},
+		{0, 1, 0},
+		{1, 0, 0},
+		{1, 1, 1}
+	};
+
+	private static int episodes = 2500;
+	private static double learningRate = 0.3; // experiment
 
 	private static int trainingSetSize = 0;
 	private static int inputLayerSize = 2;
 	private static int hiddenLayerSize = 3;
 	private static double[][] hiddenLayerWeights; // [from][to]
 	private static double[] outputLayerWeights;
-	private static double learningRate = 0.1; //experiment 
-	
+
 	private static void initNetwork() {
 		trainingSetSize = trainingData.length;
 		if (trainingSetSize == 0) {
@@ -52,7 +54,7 @@ public class XOR {
 	
 	private static void trainNetwork(){
 		// k episodes
-		for (int k = 0; k < 1000; k++){
+		for (int k = 0; k < episodes; k++){
 			//Run through entire training set once.
 			for (int example = 0; example < trainingSetSize; example++){
 				double[] activationInput = new double[inputLayerSize]; // We store the activation of each node (over all input and hidden layers) as we need that data during back propagation.
