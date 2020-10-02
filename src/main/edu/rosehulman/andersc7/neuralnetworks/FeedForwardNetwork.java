@@ -43,7 +43,7 @@ public class FeedForwardNetwork {
 	}
 
 	private int trainingSetSize = 0;
-	private double learningRate = 0;	
+	private double learningRate = 0;
 	private double inputs[][];
 	private double desiredOutput[][];
 	private double[][][] weights; // [layer][from][to]
@@ -276,23 +276,29 @@ public class FeedForwardNetwork {
 			}
 			// last hidden layer to output layer
 			feedForward(activation, this.hiddenLayerSize, this.outputLayerSize, this.numHiddenLayers);
-	
-			for (int j = 0; j < this.outputLayerSize; j++){
-				if (Math.abs(activation[this.numHiddenLayers+1][j] - test_labels[example][j]) > 0.1) {
-					error_count++;
-					if (verbose) {
-						System.out.println("Output Layer: " + round(activation[this.numHiddenLayers+1][0], 2) + ", " + round(activation[this.numHiddenLayers+1][1], 2) + ", " +
-							round(activation[this.numHiddenLayers+1][2], 2) + ", " + round(activation[this.numHiddenLayers+1][3], 2) + ", " +  round(activation[this.numHiddenLayers+1][4], 2) + ", " + 
-							round(activation[this.numHiddenLayers+1][5], 2) + ", " + round(activation[this.numHiddenLayers+1][6], 2) + ", " + round(activation[this.numHiddenLayers+1][7], 2) + ", " + 
-							round(activation[this.numHiddenLayers+1][8], 2) + ", " + round(activation[this.numHiddenLayers+1][9], 2));
-						System.out.println("Label Layer: " + test_labels[example][0] + ", " + test_labels[example][1] + ", " +
-							test_labels[example][2] + ", " + test_labels[example][3] + ", " +  test_labels[example][4] + ", " + 
-							test_labels[example][5] + ", " + test_labels[example][6] + ", " + test_labels[example][7] + ", " + 
-							test_labels[example][8] + ", " + test_labels[example][9]);
-					}
 
+			int indexDesired = 0;
+			int indexActual = 0;
+			double highest = 0;
+			for (int j = 0; j < this.outputLayerSize; j++){
+				if (test_labels[example][j] == 1) indexDesired = j;
+				double current = activation[this.numHiddenLayers + 1][j];
+				if (current > highest) {
+					highest = current;
+					indexActual = j;
+				}
+				if (verbose) {
+					System.out.println("Output Layer: " + round(activation[this.numHiddenLayers+1][0], 2) + ", " + round(activation[this.numHiddenLayers+1][1], 2) + ", " +
+						round(activation[this.numHiddenLayers+1][2], 2) + ", " + round(activation[this.numHiddenLayers+1][3], 2) + ", " +  round(activation[this.numHiddenLayers+1][4], 2) + ", " +
+						round(activation[this.numHiddenLayers+1][5], 2) + ", " + round(activation[this.numHiddenLayers+1][6], 2) + ", " + round(activation[this.numHiddenLayers+1][7], 2) + ", " +
+						round(activation[this.numHiddenLayers+1][8], 2) + ", " + round(activation[this.numHiddenLayers+1][9], 2));
+					System.out.println("Label Layer: " + test_labels[example][0] + ", " + test_labels[example][1] + ", " +
+						test_labels[example][2] + ", " + test_labels[example][3] + ", " +  test_labels[example][4] + ", " +
+						test_labels[example][5] + ", " + test_labels[example][6] + ", " + test_labels[example][7] + ", " +
+						test_labels[example][8] + ", " + test_labels[example][9]);
 				}
 			}
+			if (indexActual != indexDesired) error_count++;
 			// Uncomment if progress bar is desired. 
 //			if (verbose) {
 //				printProgress(startTime, example, testingSetSize);
