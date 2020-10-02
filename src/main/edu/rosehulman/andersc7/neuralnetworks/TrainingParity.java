@@ -5,15 +5,15 @@ public class TrainingParity {
 	// Even parity bit
 	public static void main(String[] args){
 		// TODO: Change the parameter to implement your network architecture.
-		ParityNet n = new ParityNet(7,1,1,1);
+		ParityNet n = new ParityNet(7,7,5,1);
 		double[][] inputs = generateInputs(7);
 		double[][] desiredOutput = generateOutputs(inputs);	
 		
 		for (int i = 0; i < inputs.length; i++){
 			for (int j = 0; j < inputs[i].length; j++){
-				System.out.print(inputs[i][j] + " ");
+				System.out.print(((int) inputs[i][j]) + " ");
 			}
-		System.out.print(" " + desiredOutput[i][0]);
+		System.out.print(" " + ((int) desiredOutput[i][0]));
 		System.out.println();
 		}
 	

@@ -12,7 +12,7 @@ public class ParityNet {
 	private int numHiddenLayers = 0;
 	private int outputLayerSize = 0;
 	private int maxLayerSize = 0;
-	private static double threshold = 0.01;
+	private static double threshold = 0.5;
 	
 	public ParityNet(int inputLayerSize, int hiddenLayerSize, int numHiddenLayers, int outputLayerSize){
 		if (inputLayerSize <= 0) {
@@ -73,10 +73,69 @@ public class ParityNet {
 				}
 			}
 		}
-		
-		//TODO: set the weights manually
-		
 
+		double or = 0.6;
+		double and = 0.3;
+		double copy = 0.6;
+
+		// region Input layer
+		this.weights[0][0][0] = or;
+		this.weights[0][0][1] = and;
+		this.weights[0][1][0] = or;
+		this.weights[0][1][1] = and;
+
+		this.weights[0][2][2] = or;
+		this.weights[0][2][3] = and;
+		this.weights[0][3][2] = or;
+		this.weights[0][3][3] = and;
+
+		this.weights[0][4][4] = or;
+		this.weights[0][4][5] = and;
+		this.weights[0][5][4] = or;
+		this.weights[0][5][5] = and;
+
+		this.weights[0][6][6] = copy;
+		// endregion
+		// region Hidden layer 1
+		this.weights[1][0][0] = or;
+		this.weights[1][1][0] = -and;
+
+		this.weights[1][2][2] = or;
+		this.weights[1][3][2] = -and;
+
+		this.weights[1][4][4] = or;
+		this.weights[1][5][4] = -and;
+
+		this.weights[1][6][6] = copy;
+		// endregion
+		// region Hidden layer 2
+		this.weights[2][0][0] = or;
+		this.weights[2][0][2] = and;
+		this.weights[2][2][0] = or;
+		this.weights[2][2][2] = and;
+
+		this.weights[2][4][4] = or;
+		this.weights[2][4][6] = and;
+		this.weights[2][6][4] = or;
+		this.weights[2][6][6] = and;
+		// endregion
+		// region Hidden layer 3
+		this.weights[3][0][0] = or;
+		this.weights[3][2][0] = -and;
+
+		this.weights[3][4][4] = or;
+		this.weights[3][6][4] = -and;
+		// endregion
+		// region Hidden layer 4
+		this.weights[4][0][0] = or;
+		this.weights[4][0][4] = and;
+		this.weights[4][4][0] = or;
+		this.weights[4][4][4] = and;
+		// endregion
+		// region Hidden layer 5
+		this.weights[5][0][0] = or;
+		this.weights[5][4][0] = -and;
+		// endregion
 	}
 
 	private static double stepActivationFunction(double input){
