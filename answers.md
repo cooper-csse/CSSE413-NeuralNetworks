@@ -18,4 +18,9 @@
     > Having a large learning rate and small episode count often trains quickly, but is unreliable. The best arrangement is small learning rate, higher episode count, higher threshold, and at least two hidden nodes.
 
 8.
-    
+   * Number of training episodes: `20000`
+   * Learning rate: `0.1`
+   * Number of hidden layers: `1` 
+   * Size of hidden layers: `3`
+   * Global error after training: `0.003201654370458932`
+   * Overall accuracy on test set: `1.0`
