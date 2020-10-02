@@ -47,6 +47,7 @@ public class FeedForwardNetwork {
 	private double inputs[][];
 	private double desiredOutput[][];
 	private double[][][] weights; // [layer][from][to]
+	private double globalError = 0;
 
 	
 	@SuppressWarnings("hiding")
@@ -99,6 +100,7 @@ public class FeedForwardNetwork {
 	
 	public void trainNetwork(int iterations, boolean verbose){
 		for (int k = 0; k < iterations; k++){
+			if (k % (iterations / 10) == 0) System.out.print(".");
 			double globalError = 0.0;
 			//Run through entire training set once.
 			for (int example = 0; example < this.trainingSetSize; example++){
@@ -159,6 +161,7 @@ public class FeedForwardNetwork {
 				// calculating RMS
 				System.out.println("Global error: " + Math.sqrt(globalError/(this.trainingSetSize*this.outputLayerSize)));
 			}
+			if (k == iterations - 1) this.globalError = Math.sqrt(globalError / (this.trainingSetSize * this.outputLayerSize));
 		}
 	}
 	
@@ -304,10 +307,12 @@ public class FeedForwardNetwork {
 //				printProgress(startTime, example, testingSetSize);
 //			}
 		}
-		System.out.println(error_count + " errors");
+//		System.out.println(error_count + " errors");
 		System.out.println("Done testing.");
-		System.out.println("Number correct: " + (testingSetSize - error_count) + " out of: " + testingSetSize);
-		System.out.println("Overall accuracy: " +   round((((double)(testingSetSize-error_count)/testingSetSize)), 4));
+		System.out.println("\nResults:");
+		System.out.println("\tGlobal error: " + this.globalError);
+		System.out.println("\tNumber correct: " + (testingSetSize - error_count) + " out of: " + testingSetSize);
+		System.out.println("\tOverall accuracy: " +   round((((double)(testingSetSize-error_count)/testingSetSize)), 4));
 	}
 	
 	public static double round(double value, int places) {

@@ -21,13 +21,12 @@ public class Training {
 		System.out.println("Finished!");
 		n.initNetwork(trainingInputs, trainingOutputs, learningRate, weightOffset);
 
-		System.out.print("Training neural network... ");
+		System.out.print("Training neural network");
 		n.trainNetwork(episodes, false);
-		System.out.println("Finished!");
+		System.out.println(" Finished!");
 
-		System.out.println("Testing neural network...");
+		System.out.print("Testing neural network... ");
 		n.testNetworkBatch(DataReader.testCount, testingInputs, testingOutputs, false);
-		System.out.println("Finished testing neural network.");
 	}
 	
 }
